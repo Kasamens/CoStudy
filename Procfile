@@ -1,1 +1,1 @@
-web: gunicorn co-study.wsgi
+web: gunicorn heroku_blog.wsgi --log-file -
