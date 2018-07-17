@@ -1,7 +1,7 @@
 {%if latest_thought_list%}
     <ul>
         {%for thought in latest_thought_list%}
-        <li><a href="{% url 'MainApp:detail' post.id %}">{{ thought.thought_text }}</a></li>
+        <li><a href="{% url 'main:detail' thought.id %}">{{ thought.thought_text }}</a></li>
         {%endfor%}
     </ul>
 {%else%}

@@ -5,7 +5,7 @@ from .models import Thought
 class IndexView(generic.ListView):
     template_name = 'index.html'
     context_object_name = 'latest_thought_list'
-    thought = ''
+    thought = None
 
     def __init__(self, thought):
         thought = thought
