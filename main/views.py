@@ -9,12 +9,12 @@ class IndexView(generic.ListView):
 
     def __init__(self, thought):
         self.thought = thought
-
+    """
     def get_queryset(self):
         thoughts = list(Thought.objects.all())
         thoughts.remove(thought) if thought.get_serial() != self.thought.get_serial()
         return thoughts
-
+    """
 class ThoughtDetail(generic.DetailView):
     model = Thought
     template_name='thought_detail.html'
