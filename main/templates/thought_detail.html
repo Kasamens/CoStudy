@@ -1,6 +1,6 @@
 <h1>{{ thought.thought_text }}</h1>
     <ul>
-        {% for thought in thought._set.all %}
+        {% for thought in thought_set.all %}
             <li><a href="#">{{thought.thought_text}}</a></li>
         {% endfor %}
     </ul>

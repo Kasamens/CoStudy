@@ -8,14 +8,13 @@ class IndexView(generic.ListView):
     thought = None
 
     def __init__(self, thought):
-        thought = thought
+        self.thought = thought
 
     def get_queryset(self):
-        """Return the last 100 published thoughts"""
-        return  Thought.objects.filter(type=thought.type)[:100]
+        thoughts = list(Thought.objects.all())
+        thoughts.remove(thought) if thought.get_serial() != self.thought.get_serial()
+        return thoughts
 
-""""
 class ThoughtDetail(generic.DetailView):
     model = Thought
     template_name='thought_detail.html'
-"""
