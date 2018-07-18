@@ -1,1 +1,1 @@
-web: gunicorn CoStudy.wsgi 
+web: gunicorn app:app
