@@ -9,13 +9,10 @@ class Thought(models.Model):
         return self.thought_text
 
 class Post(Thought):
-    def get_serial(self):
-        return 'Post'
+    pass
     
 
 
 class Comment(Thought):
     parent_post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    def get_serial(self):
-        return 'Comment'
         
