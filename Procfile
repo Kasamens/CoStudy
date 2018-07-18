@@ -1,1 +1,1 @@
-web: gunicorn co-study.wsgi 
+web: gunicorn costudy.wsgi 
