@@ -1,1 +1,1 @@
-web: gunicorn costudy.wsgi 
+web: gunicorn CoStudy.wsgi 
