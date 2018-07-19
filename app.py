@@ -14,7 +14,7 @@ def index():
     return render_template('index.html', thoughts=out)
 
 def connect_to_database():
-     conn = ""
+    conn = ""
     out = []
     try:
         url = urlparse.urlparse(os.environ['DATABASE_URL'])
