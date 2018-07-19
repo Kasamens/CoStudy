@@ -20,14 +20,11 @@ def connect_to_database():
     return conn.cursor()
 
 def insert_into_database(text,type):
-    cur = connect_to_database()
-    cur.execute("""INSERT INTO thought VALUES(text,datetime.now(),type,0,)""")    
-
-
-@app.route('/')
-def index():
-    return render_template('index.html')
-
+    try:
+        cur = connect_to_database()
+        cur.execute("""INSERT INTO thought VALUES(text,datetime.now(),type,0,)""")    
+    except:
+        '%s text not inserted', text
 
 def get_thoughts():
     try:
@@ -39,16 +36,26 @@ def get_thoughts():
     return out
 
 
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/posts')
+def posts():
+    thoughts = get_thoughts()
+    return render_template('posts.html', thoughts=thoughts)
+
+
+
 @app.route('/add_thought', methods = ['GET', 'POST'])
-def add_thought():
+def add_thought(type):
     if request.method == 'POST':
         if not request.form['text']:
             flash('Please enter all the fields', 'error')
         else:
-            insert_into_database(request.form['text'],'thought')
-            flash('Record was successfully added')
-            return redirect(url_for('index.html'))
-		
+            insert_into_database(request.form['text'],type)
+            flash('%s successfully uploaded', type)
+            return redirect(url_for('post.html'))
     return render_template('add_thought.html')
 
 if __name__ == '__main__':
