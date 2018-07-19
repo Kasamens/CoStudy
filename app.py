@@ -46,11 +46,11 @@ def send_js(path):
     return send_from_directory('js', path)
 
 @app.route('/img/<path:path>')
-def send_js(path):
+def img_js(path):
     return send_from_directory('img', path)
 
 @app.route('/css/<path:path>')
-def send_js(path):
+def css_js(path):
     return send_from_directory('css', path)
 
 @app.route('/posts')
