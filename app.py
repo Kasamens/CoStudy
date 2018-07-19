@@ -4,9 +4,8 @@ import psycopg2
 import os
 app = Flask(__name__)
 
-
-@app.route('/')
-def index():
+    
+def get_thoughts():
     conn = ""
     out = []
     try:
@@ -19,12 +18,21 @@ def index():
         conn = psycopg2.connect(dbname=dbname, user=user, password=password, host=host, port=port)
     except:
         out = {"err": "Unable to connect to the database"}
-
+    try:
         cur = conn.cursor()
         cur.execute("""SELECT text from thought""")
-        out = cur.fetchall()
-    
-    return render_template('index.html', out = thoughts)
+        rows = cur.fetchall()
+        out = []
+        for row in rows:
+            out.append({"thought": row[0]})
+    except:
+        out = {"err": "General SQL Error"}
+    return out
+
+@app.route('/')
+def index():
+    out =  get_thoughts()
+    return render_template('index.html', thoughts=out)
 
 
 @app.route('/new', methods = ['GET', 'POST'])
