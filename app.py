@@ -1,5 +1,6 @@
 from flask import Flask, render_template
-
+import urllib.parse as urlparse
+import psycopg2
 import os
 app = Flask(__name__)
 
