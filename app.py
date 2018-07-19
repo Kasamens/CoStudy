@@ -26,8 +26,7 @@ def insert_into_database(text,type):
 
 @app.route('/')
 def index():
-    out =  get_thoughts()
-    return render_template('index.html', thoughts=out)
+    return render_template('index.html')
 
 
 def get_thoughts():
