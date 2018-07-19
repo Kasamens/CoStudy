@@ -5,13 +5,7 @@ import os
 import datetime
 app = Flask(__name__)
 
-    
 
-
-@app.route('/')
-def index():
-    out =  get_thoughts()
-    return render_template('index.html', thoughts=out)
 
 def connect_to_database():
     conn = ""
@@ -27,17 +21,20 @@ def connect_to_database():
 
 def insert_into_database(text,type):
     cur = connect_to_database()
-    cur.execute("""INSERT INTO thought VALUES(text,datetime.now(),type,0,)""")
+    cur.execute("""INSERT INTO thought VALUES(text,datetime.now(),type,0,)""")    
+
+
+@app.route('/')
+def index():
+    out =  get_thoughts()
+    return render_template('index.html', thoughts=out)
 
 
 def get_thoughts():
     try:
         cur = connect_to_database()
         cur.execute("""SELECT text from thought""")
-        rows = cur.fetchall()
-        out = []
-        for row in rows:
-            out.append({"thought": row[0]})
+        out = cur.fetchall()
     except:
         out = {"err": "General SQL Error"}
     return out
