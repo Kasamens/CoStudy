@@ -5,8 +5,30 @@ app = Flask(__name__)
 
 
 @app.route('/')
-def index():
+
     return render_template('index.html')
+
+@app.route('/users')
+def index():
+    conn = ""
+    out = []
+    try:
+        url = urlparse.urlparse(os.environ['DATABASE_URL'])
+        dbname = url.path[1:]
+        user = url.username
+        password = url.password
+        host = url.hostname
+        port = url.port
+        conn = psycopg2.connect(dbname=dbname, user=user, password=password, host=host, port=port)
+    except:
+        out = {"err": "Unable to connect to the database"}
+
+        cur = conn.cursor()
+        cur.execute("""SELECT text from thought""")
+        thoughts = list(cur.fetchall())
+    
+    return render_template('index.html', thougts = thoughts)
+
 
 @app.route('/new', methods = ['GET', 'POST'])
 def new():
