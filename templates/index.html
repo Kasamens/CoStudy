@@ -1,1 +1,7 @@
-CoStudy
+{%if thoughts%}
+    {%for thought in thoughts%}
+        {{thought.text}}
+    {%endfor%}
+{%else%}
+    No content available
+{%endif%}
