@@ -8,6 +8,7 @@ import routes
 
 
 class DataModel:
+    
     def connect_to_database(self):
         try:
             conn = ""
@@ -33,7 +34,7 @@ class DataModel:
 
     def get_thoughts(self):
         try:
-            cur = connect_to_database()
+            cur = self.connect_to_database()
             cur.execute("""SELECT * from person""")
             out = cur.fetchall()
             for row in out:
