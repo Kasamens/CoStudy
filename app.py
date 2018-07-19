@@ -16,14 +16,13 @@ def index():
 def connect_to_database():
     conn = ""
     out = []
-    try:
-        url = urlparse.urlparse(os.environ['DATABASE_URL'])
-        dbname = url.path[1:]
-        user = url.username
-        password = url.password
-        host = url.hostname
-        port = url.port
-        conn = psycopg2.connect(dbname=dbname, user=user, password=password, host=host, port=port)
+    url = urlparse.urlparse(os.environ['DATABASE_URL'])
+    dbname = url.path[1:]
+    user = url.username
+    password = url.password
+    host = url.hostname
+    port = url.port
+    conn = psycopg2.connect(dbname=dbname, user=user, password=password, host=host, port=port)
     return conn.cursor()
 
 def insert_into_database(text,type):
