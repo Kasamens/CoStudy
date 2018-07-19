@@ -7,8 +7,12 @@ dmodel = models.DataModel()
 
 @app.route('/')
 def index():
+    
     test = dmodel.get_thoughts()
-    return render_template('index.html')
+    print ("Worked")
+    return None
+    
+    #return render_template('index.html')
 
 
 
