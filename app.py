@@ -40,6 +40,10 @@ def get_thoughts():
 def index():
     return render_template('index.html')
 
+@app.route('/js/assets')
+def send_js(path):
+    return send_from_directory('js', path)
+
 @app.route('/posts')
 def posts():
     thoughts = get_thoughts()
