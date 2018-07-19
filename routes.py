@@ -1,12 +1,12 @@
 from flask import Flask, render_template, request
-import .models
+import .app
 app = Flask(__name__)
 
 
 
 @app.route('/')
 def index():
-    test = models.get_thoughts()
+    test = app.get_thoughts()
     return render_template('index.html')
 
 
