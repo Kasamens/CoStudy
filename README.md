@@ -1,6 +1,6 @@
 # CoStudy
 
-Team:
+## Team
 
 * Anna
 
@@ -8,5 +8,7 @@ Team:
 
 * 
 
-URL: https://costudy.herokuapp.com
+## URL 
+
+https://costudy.herokuapp.com
 
