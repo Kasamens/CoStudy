@@ -26,9 +26,9 @@ def connect_to_database():
     return conn.cursor()
 
 def insert_into_database(text,type):
-     try:
-        cur = connect_to_database()
-        cur.execute("""INSERT INTO thought VALUES(text,datetime.now(),type,0,)""")
+    cur = connect_to_database()
+    cur.execute("""INSERT INTO thought VALUES(text,datetime.now(),type,0,)""")
+
 
 def get_thoughts():
     try:
