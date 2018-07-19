@@ -1,12 +1,13 @@
 from flask import Flask, render_template, request
-import .models
+import models
+import os
 app = Flask(__name__)
 
-
+dmodel = models.DataModel()
 
 @app.route('/')
 def index():
-    test = models.get_thoughts()
+    test = dmodel.get_thoughts()
     return render_template('index.html')
 
 
