@@ -5,10 +5,6 @@ app = Flask(__name__)
 
 
 @app.route('/')
-
-    return render_template('index.html')
-
-@app.route('/users')
 def index():
     conn = ""
     out = []
@@ -25,9 +21,9 @@ def index():
 
         cur = conn.cursor()
         cur.execute("""SELECT text from thought""")
-        thoughts = list(cur.fetchall())
+        out = cur.fetchall()
     
-    return render_template('index.html', thougts = thoughts)
+    return render_template('index.html', out = thoughts)
 
 
 @app.route('/new', methods = ['GET', 'POST'])
