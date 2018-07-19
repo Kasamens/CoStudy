@@ -44,7 +44,7 @@ def index():
 def send_js(path):
     return send_from_directory('js', path)
 
-@app.route('static/assets/img')
+@app.route('/static/assets/img')
 def send_js(path):
     return send_from_directory('img', path)
 
