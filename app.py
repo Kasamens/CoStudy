@@ -41,17 +41,25 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/js/<path:path>')
+@app.route('/assets/js/<path:path>')
 def send_js(path):
     return send_from_directory('js', path)
 
-@app.route('/img/<path:path>')
+@app.route('/assets/img/<path:path>')
 def send_img(path):
     return send_from_directory('img', path)
 
-@app.route('/css/<path:path>')
+@app.route('/assets/css/<path:path>')
 def send_css(path):
     return send_from_directory('css', path)
+
+@app.route('/assets/fonts/<path:path>')
+def send_fonts(path):
+    return send_from_directory('fonts', path)
+
+@app.route('/assets/bootstrap/<path:path>')
+def send_bootstrap(path):
+    return send_from_directory('bootstrap', path)
 
 @app.route('/posts')
 def posts():
