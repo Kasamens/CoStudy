@@ -40,13 +40,18 @@ def get_thoughts():
 def index():
     return render_template('index.html')
 
-@app.route('/js/assets')
+
+@app.route('/js/<path:path>')
 def send_js(path):
     return send_from_directory('js', path)
 
-@app.route('/static/assets/img')
-def send_img(path):
+@app.route('/img/<path:path>')
+def send_js(path):
     return send_from_directory('img', path)
+
+@app.route('/css/<path:path>')
+def send_js(path):
+    return send_from_directory('css', path)
 
 @app.route('/posts')
 def posts():
