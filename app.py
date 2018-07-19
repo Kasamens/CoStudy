@@ -10,6 +10,7 @@ def index():
     
     test = dmodel.get_thoughts()
     print ("Worked")
+    print(test)
     return None
     
     #return render_template('index.html')
