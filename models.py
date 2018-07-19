@@ -37,12 +37,13 @@ class DataModel:
             cur = self.connect_to_database()
             cur.execute("""SELECT * from person""")
             out = cur.fetchall()
+            data = []
             for row in out:
-                print('Printing rows')
-                print(row)
+                data.append({"id": row[0], "first_name": row[1]})
+            return data
         except Exception as e:
             out = {"err": str(e)}
-        return json.dumps(out)
+        return json.dumps(data)
 
 
 

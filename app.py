@@ -9,7 +9,7 @@ dmodel = models.DataModel()
 def index():
     
     test = dmodel.get_thoughts()
-    print ("Worked")
+    print ("Printing database record")
     print(test)
     return None
     
