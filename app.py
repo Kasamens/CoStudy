@@ -2,11 +2,19 @@ from flask import Flask, render_template
 import urllib.parse as urlparse
 import psycopg2
 import os
+import datetime
 app = Flask(__name__)
 
     
-def get_thoughts():
-    conn = ""
+
+
+@app.route('/')
+def index():
+    out =  get_thoughts()
+    return render_template('index.html', thoughts=out)
+
+def connect_to_database():
+     conn = ""
     out = []
     try:
         url = urlparse.urlparse(os.environ['DATABASE_URL'])
@@ -16,10 +24,16 @@ def get_thoughts():
         host = url.hostname
         port = url.port
         conn = psycopg2.connect(dbname=dbname, user=user, password=password, host=host, port=port)
-    except:
-        out = {"err": "Unable to connect to the database"}
+    return conn.cursor()
+
+def insert_into_database(text,type):
+     try:
+        cur = connect_to_database()
+        cur.execute("""INSERT INTO thought VALUES(text,datetime.now(),type,0,)""")
+
+def get_thoughts():
     try:
-        cur = conn.cursor()
+        cur = connect_to_database()
         cur.execute("""SELECT text from thought""")
         rows = cur.fetchall()
         out = []
@@ -29,27 +43,18 @@ def get_thoughts():
         out = {"err": "General SQL Error"}
     return out
 
-@app.route('/')
-def index():
-    out =  get_thoughts()
-    return render_template('index.html', thoughts=out)
 
-
-@app.route('/new', methods = ['GET', 'POST'])
-def new():
+@app.route('/add_thought', methods = ['GET', 'POST'])
+def add_thought():
     if request.method == 'POST':
-        if not request.form['name'] or not request.form['city'] or not request.form['addr']:
+        if not request.form['text']:
             flash('Please enter all the fields', 'error')
         else:
-            user = User(request.form['name'], request.form['city'],
-            request.form['addr'], request.form['pin'])
-
-            db.session.add(user)
-            db.session.commit()
+            insert_into_database(request.form['text'],'thought')
             flash('Record was successfully added')
-            return redirect(url_for('show_all'))
+            return redirect(url_for('index.html'))
 		
-    return render_template('new.html')
+    return render_template('add_thought.html')
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
