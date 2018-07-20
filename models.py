@@ -6,6 +6,11 @@ import json
 import datetime
 import routes
 
+#form imports
+from flask_wtf import FlaskForm
+from wtforms import StringField, TextAreaField, PasswordField
+from wtforms.validators import DataRequired,Length, EqualTo
+from passlib.hash import sha256_crypt
 
 class DataModel:
     
@@ -25,25 +30,41 @@ class DataModel:
             out = {'err' : str(e)}
             return json.dumps(out)
 
-    def insert_into_database(self,text,type):
+    def insert_into_database(self,query):
         try:
             cur = connect_to_database()
-            cur.execute("""INSERT INTO thought VALUES(text,datetime.now(),type,0,)""")    
-        except:
-            '%s text not inserted', text
-
-    def get_thoughts(self):
-        try:
-            cur = self.connect_to_database()
-            cur.execute("""SELECT * from person""")
-            out = cur.fetchall()
-            data = []
-            for row in out:
-                data.append({"id": row[0], "first_name": row[1]})
-            return data
+            cur.execute(query)    
         except Exception as e:
             out = {"err": str(e)}
-        return json.dumps(data)
+        return json.dumps(out)
+            
+
+    def get_from_database(self,query):
+        try:
+            cur = self.connect_to_database()
+            cur.execute(query)
+            out = cur.fetchall()
+            return out
+        except Exception as e:
+            out = {"err": str(e)}
+        return json.dumps(out)
 
 
 
+class LoginForm(FlaskForm):
+    username = StringField('username', validators=[DataRequired(), Length(min=1, max=50)])
+    password = PasswordField('password', validators=[DataRequired()])
+
+
+class SignUpForm(FlaskForm):
+    firstname = StringField('first name', validators=[DataRequired(), Length(min=1, max=50)])
+    lastname = StringField('last name', validators=[DataRequired(), Length(min=1, max=50)])
+    username = StringField('user name', validators=[DataRequired(), Length(min=1, max=50)])
+    status = StringField('last name', validators=[DataRequired(), Length(min=1, max=50)])
+    email = StringField('email', validators=[DataRequired(), Length(min=6, max=100)])
+    password = PasswordField('password', validators=[DataRequired(), EqualTo('confirm', message='passwords should match')])
+    confirm = PasswordField('confirm password')
+
+
+class ThoughtForm(FlaskForm):
+    text = TextAreaField('Your text goes here', validators=[DataRequired(), Length(min=1, max=1000)])

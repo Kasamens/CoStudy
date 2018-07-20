@@ -1,46 +1,43 @@
-from flask import Flask, render_template, request
-import models
+from flask import Flask, render_template, request,redirect,url_for
+import models 
 import os
+from flask import flash
+
+
 app = Flask(__name__)
 
-dmodel = models.DataModel()
+app.config['SECRET_KEY'] = 'v5d&fiouf3pwht^^2ja5r!q7ex3e)294dj)xr%668e5845^)oz'
 
 @app.route('/')
 def index():
-    
-    test = dmodel.get_thoughts()
-    print ("Printing database record")
-    print(test)
-    return None
-    
-    #return render_template('index.html')
+    return render_template('index.html')
 
 
 
 @app.route('/posts')
 def posts():
-    thoughts = get_thoughts()
+    thoughts = models.DataModel.get_from_database("""SELECT text from thought""")
     return render_template('Posts.html', thoughts=thoughts)
 
-@app.route('/sign-up')
-def sign_up():
-    return render_template('SignUp.html')
 
-@app.route('/login', methods = ['GET', 'POST'])
+
+@app.route('/login', methods=('GET', 'POST'))
 def login():
+    form = models.LoginForm()
     if request.method == 'POST':
-        if not request.form['username'] or not request.form['password']:
-            flash('All fields required', 'error')
-        else:
-            cur = connect_to_database()
-            cur.execute("""SELECT password FROM users WHERE username = request.form['username']""")
-            if form['password'] == cur:
-                return redirect(url_for('index.html'))
-            else :
-                flash('Wrong password or username')
-    return render_template('Login.html')
+        query = models.DataModel.get_from_database("""SELECT password FROM users WHERE email = %s""", request.form['email'])
+    if form.validate_on_submit():
+        return redirect(url_for('index'))
+    return render_template('Login.html', form=form)
 
-    return render_template('Login.html')
+@app.route('/sign-up', methods = ['GET', 'POST'])
+def signup():
+    form = models.SignUpForm()
+    if request.method == 'POST':
+        #models.DataModel.insert_into_database("""INSERT INTO users VALUES (%s, %s, %s, %s, %s);,"","","",request.form['email'],request.form['password'])                             
+        flash('You signed up successfully')
+        return redirect(url_for('index'))
+    return render_template('SignUp.html', form=form)
 
 @app.route('/about')
 def about():
@@ -53,14 +50,12 @@ def profile():
 
 @app.route('/add_thought', methods = ['GET', 'POST'])
 def add_thought(type):
-    if request.method == 'POST':
-        if not request.form['text']:
-            flash('Please enter all the fields', 'error')
-        else:
-            insert_into_database(request.form['text'],type)
-            flash('%s successfully uploaded', type)
-            return redirect(url_for('post.html'))
-    return render_template('add_thought.html')
+    form = models.ThoughtForm()
+    if request.method == 'POST' and form.validated():
+        models.DataModel.insert_into_database("""INSERT INTO thought VALUES(request.form['text'])""")
+        flash('Uploaded successfully')
+        return redirect(url_for(posts))
+    return render_template('Posts.html', form=form)
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
