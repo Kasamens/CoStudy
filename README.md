@@ -10,5 +10,5 @@
 
 ## URL 
 
-https://costudy.herokuapp.com
+https://co-study.herokuapp.com
 
