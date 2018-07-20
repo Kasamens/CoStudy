@@ -10,7 +10,7 @@
   .jumbotron {
     padding:4rem 2rem;
     text-align:left;
-    background-image:url(../../assets/img/desk.jpg);
+    background-image:url(../../static/img/desk.jpg);
     background-repeat:no-repeat;
     background-size:cover;
   }
